@@ -44,7 +44,6 @@ function purchase() {
     connection.query("SELECT product_name, department_name, price, stock_quantity FROM products", function (err, result) {
         if (err) throw err;
         var nameArray = [];
-        console.log(nameArray);
         var result = result;
         for (let i = 0; i < result.length; i++) {
             nameArray.push(result[i].product_name);
@@ -66,13 +65,11 @@ function purchase() {
                 }
             ])
             .then(function (inqRes) {
-                console.log(inqRes);
                 let item = inqRes.item;
-                let amount = inqRes.amt;
+                let amount = parseInt(inqRes.amt);
                 for (let i = 0; i < result.length; i++) {
-                    let currentStock = result[i].stock_quantity;
+                    let currentStock = parseInt(result[i].stock_quantity);
                     if (result[i].product_name === item && amount <= result[i].stock_quantity) {
-                        console.log("purchase possible");
                         connection.query(
                             "UPDATE products SET ? WHERE ?",
                             [
